@@ -22,19 +22,19 @@ Find out more about Swagger: [http://swagger.io](http://swagger.io)
 Run the following command to install the package and automatically add the dependency to your composer.json file:
 
 ```php
-composer require "apimatic/swagger-petstore-3-sdk:1.0.1"
+composer require "apimatic-moizgillani/swagger-petstore-3-sdk:1.0.4"
 ```
 
 Or add it to the composer.json file manually as given below:
 
 ```php
 "require": {
-    "apimatic/swagger-petstore-3-sdk": "1.0.1"
+    "apimatic-moizgillani/swagger-petstore-3-sdk": "1.0.4"
 }
 ```
 
 You can also view the package at:
-https://packagist.org/packages/apimatic/swagger-petstore-3-sdk#1.0.1
+https://packagist.org/packages/apimatic-moizgillani/swagger-petstore-3-sdk#1.0.4
 
 ## Test the SDK
 
@@ -47,7 +47,7 @@ You can change the PHPUnit test configuration in the `phpunit.xml` file.
 
 ## Initialize the API Client
 
-**_Note:_** Documentation for the client can be found [here.](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/client.md)
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/client.md)
 
 The following parameters are configurable for the API Client:
 
@@ -78,14 +78,14 @@ This API uses `Custom Header Signature`.
 
 ## List of APIs
 
-* [Pet](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/controllers/pet.md)
-* [Store](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/controllers/store.md)
-* [User](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/controllers/user.md)
+* [Pet](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/pet.md)
+* [Store](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/store.md)
+* [User](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/user.md)
 
 ## Classes Documentation
 
-* [Utility Classes](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/utility-classes.md)
-* [ApiException](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/api-exception.md)
-* [HttpRequest](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/http-request.md)
-* [HttpResponse](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.1/doc/http-response.md)
+* [Utility Classes](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/utility-classes.md)
+* [ApiException](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/api-exception.md)
+* [HttpRequest](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/http-request.md)
+* [HttpResponse](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/http-response.md)
 

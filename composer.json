@@ -1,5 +1,5 @@
 {
-    "name": "apimatic/swagger-petstore-3-sdk",
+    "name": "apimatic-moizgillani/swagger-petstore-3-sdk",
     "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.",
     "type": "library",
     "keywords": [
