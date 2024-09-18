@@ -29,15 +29,15 @@ class PetControllerTest extends BaseTestController
         self::$controller = parent::getClient()->getPetController();
     }
 
-    public function testTestFindPetsByStatus()
+    public function testFindPetsByTags()
     {
         // Parameters for the API call
-        $status = Models\StatusEnum::AVAILABLE;
+        $tags = null;
 
         // Perform API call
         $result = null;
         try {
-            $result = self::$controller->findPetsByStatus($status);
+            $result = self::$controller->findPetsByTags($tags);
         } catch (Exceptions\ApiException $e) {
         }
 
@@ -48,15 +48,15 @@ class PetControllerTest extends BaseTestController
         $this->newTestCase($result)->expectStatus(200)->allowExtraHeaders()->expectHeaders($headers)->assert();
     }
 
-    public function testTestFindPetsByTags()
+    public function testFindPetsByStatus()
     {
         // Parameters for the API call
-        $tags = null;
+        $status = Models\StatusEnum::AVAILABLE;
 
         // Perform API call
         $result = null;
         try {
-            $result = self::$controller->findPetsByTags($tags);
+            $result = self::$controller->findPetsByStatus($status);
         } catch (Exceptions\ApiException $e) {
         }
 

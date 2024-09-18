@@ -11,51 +11,55 @@ declare(strict_types=1);
 namespace SwaggerPetstoreOpenAPI30Lib\Tests;
 
 use Core\Types\CallbackCatcher;
+use SwaggerPetstoreOpenAPI30Lib\Authentication\CustomHeaderAuthenticationCredentialsBuilder;
+use SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30Client;
+use SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder;
 
 class ClientFactory
 {
-    public static function create(
-        CallbackCatcher $httpCallback
-    ): \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30Client {
-        $clientBuilder = \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder::init();
+    public static function create(CallbackCatcher $httpCallback): SwaggerPetstoreOpenAPI30Client
+    {
+        $clientBuilder = SwaggerPetstoreOpenAPI30ClientBuilder::init();
         $clientBuilder = self::addConfigurationFromEnvironment($clientBuilder);
         $clientBuilder = self::addTestConfiguration($clientBuilder);
         return $clientBuilder->httpCallback($httpCallback)->build();
     }
 
     public static function addTestConfiguration(
-        \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder $builder
-    ): \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder {
+        SwaggerPetstoreOpenAPI30ClientBuilder $builder
+    ): SwaggerPetstoreOpenAPI30ClientBuilder {
         return $builder;
     }
 
     public static function addConfigurationFromEnvironment(
-        \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder $builder
-    ): \SwaggerPetstoreOpenAPI30Lib\SwaggerPetstoreOpenAPI30ClientBuilder {
+        SwaggerPetstoreOpenAPI30ClientBuilder $builder
+    ): SwaggerPetstoreOpenAPI30ClientBuilder {
         $timeout = getenv('SWAGGER_PETSTORE_OPEN_API_30_LIB_TIMEOUT');
         $numberOfRetries = getenv('SWAGGER_PETSTORE_OPEN_API_30_LIB_NUMBER_OF_RETRIES');
         $maximumRetryWaitTime = getenv('SWAGGER_PETSTORE_OPEN_API_30_LIB_MAXIMUM_RETRY_WAIT_TIME');
         $environment = getenv('SWAGGER_PETSTORE_OPEN_API_30_LIB_ENVIRONMENT');
         $apiKey = getenv('SWAGGER_PETSTORE_OPEN_API_30_LIB_API_KEY');
 
-        if ($timeout !== false && \is_numeric($timeout)) {
+        if (!empty($timeout) && \is_numeric($timeout)) {
             $builder->timeout(intval($timeout));
         }
 
-        if ($numberOfRetries !== false && \is_numeric($numberOfRetries)) {
+        if (!empty($numberOfRetries) && \is_numeric($numberOfRetries)) {
             $builder->numberOfRetries(intval($numberOfRetries));
         }
 
-        if ($maximumRetryWaitTime !== false && \is_numeric($maximumRetryWaitTime)) {
+        if (!empty($maximumRetryWaitTime) && \is_numeric($maximumRetryWaitTime)) {
             $builder->maximumRetryWaitTime(intval($maximumRetryWaitTime));
         }
 
-        if ($environment !== false) {
+        if (!empty($environment)) {
             $builder->environment($environment);
         }
 
-        if ($apiKey !== false) {
-            $builder->apiKey($apiKey);
+        if (!empty($apiKey)) {
+            $builder->customHeaderAuthenticationCredentials(
+                CustomHeaderAuthenticationCredentialsBuilder::init($apiKey)
+            );
         }
 
         return $builder;

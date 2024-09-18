@@ -12,6 +12,7 @@ namespace SwaggerPetstoreOpenAPI30Lib;
 
 use Core\Types\Sdk\CoreCallback;
 use Core\Utils\CoreHelper;
+use SwaggerPetstoreOpenAPI30Lib\Authentication\CustomHeaderAuthenticationCredentialsBuilder;
 
 class SwaggerPetstoreOpenAPI30ClientBuilder
 {
@@ -107,9 +108,26 @@ class SwaggerPetstoreOpenAPI30ClientBuilder
         return $this;
     }
 
+    /**
+     * @see SwaggerPetstoreOpenAPI30ClientBuilder::customHeaderAuthenticationCredentials
+     *
+     * @deprecated This builder setter is deprecated. Checkout the see also section for its
+     *             alternate.
+     *
+     * @param string $apiKey
+     *
+     * @return $this
+     */
     public function apiKey(string $apiKey): self
     {
         $this->config['apiKey'] = $apiKey;
+        return $this;
+    }
+
+    public function customHeaderAuthenticationCredentials(
+        CustomHeaderAuthenticationCredentialsBuilder $customHeaderAuthentication
+    ): self {
+        $this->config = array_merge($this->config, $customHeaderAuthentication->getConfiguration());
         return $this;
     }
 

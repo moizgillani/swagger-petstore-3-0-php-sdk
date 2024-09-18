@@ -14,34 +14,53 @@ $storeController = $client->getStoreController();
 
 ## Methods
 
-* [Get Inventory](../../doc/controllers/store.md#get-inventory)
-* [Place Order](../../doc/controllers/store.md#place-order)
 * [Get Order by Id](../../doc/controllers/store.md#get-order-by-id)
+* [Place Order](../../doc/controllers/store.md#place-order)
+* [Get Inventory](../../doc/controllers/store.md#get-inventory)
 * [Delete Order](../../doc/controllers/store.md#delete-order)
 
 
-# Get Inventory
+# Get Order by Id
 
-Returns a map of status codes to quantities
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
-function getInventory(): array
+function getOrderById(int $orderId): Order
 ```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `orderId` | `int` | Template, Required | ID of order that needs to be fetched |
 
 ## Response Type
 
-`array<string,int>`
+[`Order`](../../doc/models/order.md)
 
 ## Example Usage
 
 ```php
-$result = $storeController->getInventory();
+$orderId = 62;
+
+$result = $storeController->getOrderById($orderId);
 ```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 400 | Invalid ID supplied | `ApiException` |
+| 404 | Order not found | `ApiException` |
 
 
 # Place Order
 
 Place a new order in the store
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
 function placeOrder(
@@ -62,7 +81,7 @@ function placeOrder(
 | `petId` | `?int` | Form, Optional | - |
 | `quantity` | `?int` | Form, Optional | - |
 | `shipDate` | `?DateTime` | Form, Optional | - |
-| `orderStatus` | [`?string (OrderStatusEnum)`](../../doc/models/order-status-enum.md) | Form, Optional | Order Status<br>**Default**: `OrderStatusEnum::APPROVED` |
+| `orderStatus` | [`?string(OrderStatusEnum)`](../../doc/models/order-status-enum.md) | Form, Optional | Order Status<br>**Default**: `OrderStatusEnum::APPROVED` |
 | `complete` | `?bool` | Form, Optional | - |
 
 ## Response Type
@@ -101,43 +120,30 @@ $result = $storeController->placeOrder(
 | 405 | Invalid input | `ApiException` |
 
 
-# Get Order by Id
+# Get Inventory
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
+Returns a map of status codes to quantities
 
 ```php
-function getOrderById(int $orderId): Order
+function getInventory(): array
 ```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `orderId` | `int` | Template, Required | ID of order that needs to be fetched |
 
 ## Response Type
 
-[`Order`](../../doc/models/order.md)
+`array<string,int>`
 
 ## Example Usage
 
 ```php
-$orderId = 62;
-
-$result = $storeController->getOrderById($orderId);
+$result = $storeController->getInventory();
 ```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 400 | Invalid ID supplied | `ApiException` |
-| 404 | Order not found | `ApiException` |
 
 
 # Delete Order
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
 function deleteOrder(int $orderId): void

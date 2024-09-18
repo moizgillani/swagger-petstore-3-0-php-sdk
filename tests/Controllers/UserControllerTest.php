@@ -28,26 +28,7 @@ class UserControllerTest extends BaseTestController
         self::$controller = parent::getClient()->getUserController();
     }
 
-    public function testTestCreateUsersWithListInput()
-    {
-        // Parameters for the API call
-        $body = null;
-
-        // Perform API call
-        $result = null;
-        try {
-            $result = self::$controller->createUsersWithListInput($body);
-        } catch (Exceptions\ApiException $e) {
-        }
-
-        $headers = [];
-        $headers['Content-Type'] = ['application/json', true];
-
-        // Assert result with expected response
-        $this->newTestCase($result)->expectStatus(200)->allowExtraHeaders()->expectHeaders($headers)->assert();
-    }
-
-    public function testTestLoginUser()
+    public function testLoginUser()
     {
         // Parameters for the API call
         $username = null;
@@ -63,6 +44,25 @@ class UserControllerTest extends BaseTestController
         $headers = [];
         $headers['X-Rate-Limit'] = ["", false];
         $headers['X-Expires-After'] = ["", false];
+        $headers['Content-Type'] = ['application/json', true];
+
+        // Assert result with expected response
+        $this->newTestCase($result)->expectStatus(200)->allowExtraHeaders()->expectHeaders($headers)->assert();
+    }
+
+    public function testCreateUsersWithListInput()
+    {
+        // Parameters for the API call
+        $body = null;
+
+        // Perform API call
+        $result = null;
+        try {
+            $result = self::$controller->createUsersWithListInput($body);
+        } catch (Exceptions\ApiException $e) {
+        }
+
+        $headers = [];
         $headers['Content-Type'] = ['application/json', true];
 
         // Assert result with expected response

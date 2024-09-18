@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace SwaggerPetstoreOpenAPI30Lib;
 
 use CoreInterfaces\Http\HttpConfigurations;
+use SwaggerPetstoreOpenAPI30Lib\Authentication\CustomHeaderAuthenticationCredentialsBuilder;
 
 /**
  * An interface for all configuration parameters required by the SDK.
@@ -25,7 +26,12 @@ interface ConfigurationInterface extends HttpConfigurations
     /**
      * Get the credentials to use with CustomHeaderAuthentication
      */
-    public function getCustomHeaderAuthenticationCredentials(): ?CustomHeaderAuthenticationCredentials;
+    public function getCustomHeaderAuthenticationCredentials(): CustomHeaderAuthenticationCredentials;
+
+    /**
+     * Get the credentials builder instance to update credentials for CustomHeaderAuthentication
+     */
+    public function getCustomHeaderAuthenticationCredentialsBuilder(): ?CustomHeaderAuthenticationCredentialsBuilder;
 
     /**
      * Get the base uri for a given server in the current environment.

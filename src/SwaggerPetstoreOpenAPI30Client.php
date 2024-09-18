@@ -12,6 +12,8 @@ namespace SwaggerPetstoreOpenAPI30Lib;
 
 use Core\ClientBuilder;
 use Core\Utils\CoreHelper;
+use SwaggerPetstoreOpenAPI30Lib\Authentication\CustomHeaderAuthenticationCredentialsBuilder;
+use SwaggerPetstoreOpenAPI30Lib\Authentication\CustomHeaderAuthenticationManager;
 use SwaggerPetstoreOpenAPI30Lib\Controllers\PetController;
 use SwaggerPetstoreOpenAPI30Lib\Controllers\StoreController;
 use SwaggerPetstoreOpenAPI30Lib\Controllers\UserController;
@@ -42,16 +44,14 @@ class SwaggerPetstoreOpenAPI30Client implements ConfigurationInterface
     public function __construct(array $config = [])
     {
         $this->config = array_merge(ConfigurationDefaults::_ALL, CoreHelper::clone($config));
-        $this->customHeaderAuthenticationManager = new CustomHeaderAuthenticationManager(
-            $this->config['apiKey'] ?? ConfigurationDefaults::API_KEY
-        );
+        $this->customHeaderAuthenticationManager = new CustomHeaderAuthenticationManager($this->config);
         $this->client = ClientBuilder::init(new HttpClient(Configuration::init($this)))
             ->converter(new CompatibilityConverter())
             ->jsonHelper(ApiHelper::getJsonHelper())
             ->apiCallback($this->config['httpCallback'] ?? null)
             ->userAgent('APIMATIC 3.0')
             ->serverUrls(self::ENVIRONMENT_MAP[$this->getEnvironment()], Server::DEFAULT_)
-            ->authManagers(['global' => $this->customHeaderAuthenticationManager])
+            ->authManagers(['api_key' => $this->customHeaderAuthenticationManager])
             ->build();
     }
 
@@ -62,7 +62,7 @@ class SwaggerPetstoreOpenAPI30Client implements ConfigurationInterface
      */
     public function toBuilder(): SwaggerPetstoreOpenAPI30ClientBuilder
     {
-        return SwaggerPetstoreOpenAPI30ClientBuilder::init()
+        $builder = SwaggerPetstoreOpenAPI30ClientBuilder::init()
             ->timeout($this->getTimeout())
             ->enableRetries($this->shouldEnableRetries())
             ->numberOfRetries($this->getNumberOfRetries())
@@ -73,8 +73,13 @@ class SwaggerPetstoreOpenAPI30Client implements ConfigurationInterface
             ->httpStatusCodesToRetry($this->getHttpStatusCodesToRetry())
             ->httpMethodsToRetry($this->getHttpMethodsToRetry())
             ->environment($this->getEnvironment())
-            ->apiKey($this->customHeaderAuthenticationManager->getApiKey())
             ->httpCallback($this->config['httpCallback'] ?? null);
+
+        $customHeaderAuthentication = $this->getCustomHeaderAuthenticationCredentialsBuilder();
+        if ($customHeaderAuthentication != null) {
+            $builder->customHeaderAuthenticationCredentials($customHeaderAuthentication);
+        }
+        return $builder;
     }
 
     public function getTimeout(): int
@@ -127,9 +132,19 @@ class SwaggerPetstoreOpenAPI30Client implements ConfigurationInterface
         return $this->config['environment'] ?? ConfigurationDefaults::ENVIRONMENT;
     }
 
-    public function getCustomHeaderAuthenticationCredentials(): ?CustomHeaderAuthenticationCredentials
+    public function getCustomHeaderAuthenticationCredentials(): CustomHeaderAuthenticationCredentials
     {
         return $this->customHeaderAuthenticationManager;
+    }
+
+    public function getCustomHeaderAuthenticationCredentialsBuilder(): ?CustomHeaderAuthenticationCredentialsBuilder
+    {
+        if (empty($this->customHeaderAuthenticationManager->getApiKey())) {
+            return null;
+        }
+        return CustomHeaderAuthenticationCredentialsBuilder::init(
+            $this->customHeaderAuthenticationManager->getApiKey()
+        );
     }
 
     /**

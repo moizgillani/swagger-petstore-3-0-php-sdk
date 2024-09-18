@@ -31,23 +31,7 @@ class StoreControllerTest extends BaseTestController
         self::$controller = parent::getClient()->getStoreController();
     }
 
-    public function testTestGetInventory()
-    {
-        // Perform API call
-        $result = null;
-        try {
-            $result = self::$controller->getInventory();
-        } catch (Exceptions\ApiException $e) {
-        }
-
-        $headers = [];
-        $headers['Content-Type'] = ['application/json', true];
-
-        // Assert result with expected response
-        $this->newTestCase($result)->expectStatus(200)->allowExtraHeaders()->expectHeaders($headers)->assert();
-    }
-
-    public function testTestPlaceOrder()
+    public function testPlaceOrder()
     {
         // Parameters for the API call
         $id = 10;
@@ -61,6 +45,22 @@ class StoreControllerTest extends BaseTestController
         $result = null;
         try {
             $result = self::$controller->placeOrder($id, $petId, $quantity, $shipDate, $orderStatus, $complete);
+        } catch (Exceptions\ApiException $e) {
+        }
+
+        $headers = [];
+        $headers['Content-Type'] = ['application/json', true];
+
+        // Assert result with expected response
+        $this->newTestCase($result)->expectStatus(200)->allowExtraHeaders()->expectHeaders($headers)->assert();
+    }
+
+    public function testGetInventory()
+    {
+        // Perform API call
+        $result = null;
+        try {
+            $result = self::$controller->getInventory();
         } catch (Exceptions\ApiException $e) {
         }
 

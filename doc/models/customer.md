@@ -21,10 +21,22 @@
   "username": "fehguy",
   "address": [
     {
-      "street": "street4",
-      "city": "city4",
-      "state": "state0",
-      "zip": "zip8"
+      "street": "street6",
+      "city": "city6",
+      "state": "state2",
+      "zip": "zip0"
+    },
+    {
+      "street": "street6",
+      "city": "city6",
+      "state": "state2",
+      "zip": "zip0"
+    },
+    {
+      "street": "street6",
+      "city": "city6",
+      "state": "state2",
+      "zip": "zip0"
     }
   ]
 }

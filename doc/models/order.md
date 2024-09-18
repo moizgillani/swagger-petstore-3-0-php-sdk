@@ -13,7 +13,7 @@
 | `petId` | `?int` | Optional | - | getPetId(): ?int | setPetId(?int petId): void |
 | `quantity` | `?int` | Optional | - | getQuantity(): ?int | setQuantity(?int quantity): void |
 | `shipDate` | `?DateTime` | Optional | - | getShipDate(): ?\DateTime | setShipDate(?\DateTime shipDate): void |
-| `orderStatus` | [`?string (OrderStatusEnum)`](../../doc/models/order-status-enum.md) | Optional | Order Status<br>**Default**: `OrderStatusEnum::APPROVED` | getOrderStatus(): ?string | setOrderStatus(?string orderStatus): void |
+| `orderStatus` | [`?string(OrderStatusEnum)`](../../doc/models/order-status-enum.md) | Optional | Order Status<br>**Default**: `OrderStatusEnum::APPROVED` | getOrderStatus(): ?string | setOrderStatus(?string orderStatus): void |
 | `complete` | `?bool` | Optional | - | getComplete(): ?bool | setComplete(?bool complete): void |
 
 ## Example (as JSON)

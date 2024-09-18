@@ -22,19 +22,19 @@ Find out more about Swagger: [http://swagger.io](http://swagger.io)
 Run the following command to install the package and automatically add the dependency to your composer.json file:
 
 ```php
-composer require "apimatic-moizgillani/swagger-petstore-3-sdk:1.0.4"
+composer require "apimatic-moizgillani/swagger-petstore-3-sdk:1.1.0"
 ```
 
 Or add it to the composer.json file manually as given below:
 
 ```php
 "require": {
-    "apimatic-moizgillani/swagger-petstore-3-sdk": "1.0.4"
+    "apimatic-moizgillani/swagger-petstore-3-sdk": "1.1.0"
 }
 ```
 
 You can also view the package at:
-https://packagist.org/packages/apimatic-moizgillani/swagger-petstore-3-sdk#1.0.4
+https://packagist.org/packages/apimatic-moizgillani/swagger-petstore-3-sdk#1.1.0
 
 ## Test the SDK
 
@@ -47,7 +47,7 @@ You can change the PHPUnit test configuration in the `phpunit.xml` file.
 
 ## Initialize the API Client
 
-**_Note:_** Documentation for the client can be found [here.](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/client.md)
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/client.md)
 
 The following parameters are configurable for the API Client:
 
@@ -62,30 +62,36 @@ The following parameters are configurable for the API Client:
 | `retryOnTimeout` | `bool` | Whether to retry on request timeout.<br>*Default*: `true` |
 | `httpStatusCodesToRetry` | `array` | Http status codes to retry against.<br>*Default*: `408, 413, 429, 500, 502, 503, 504, 521, 522, 524` |
 | `httpMethodsToRetry` | `array` | Http methods to retry against.<br>*Default*: `'GET', 'PUT'` |
-| `apiKey` | `string` |  |
+| `customHeaderAuthenticationCredentials` | [`CustomHeaderAuthenticationCredentials`](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/auth/custom-header-signature.md) | The Credentials Setter for Custom Header Signature |
 
 The API client can be initialized as follows:
 
 ```php
 $client = SwaggerPetstoreOpenAPI30ClientBuilder::init()
-    ->apiKey('api_key')
+    ->customHeaderAuthenticationCredentials(
+        CustomHeaderAuthenticationCredentialsBuilder::init(
+            'api_key'
+        )
+    )
     ->build();
 ```
 
 ## Authorization
 
-This API uses `Custom Header Signature`.
+This API uses the following authentication schemes.
+
+* [`api_key (Custom Header Signature)`](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/auth/custom-header-signature.md)
 
 ## List of APIs
 
-* [Pet](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/pet.md)
-* [Store](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/store.md)
-* [User](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/controllers/user.md)
+* [Pet](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/controllers/pet.md)
+* [Store](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/controllers/store.md)
+* [User](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/controllers/user.md)
 
 ## Classes Documentation
 
-* [Utility Classes](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/utility-classes.md)
-* [ApiException](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/api-exception.md)
-* [HttpRequest](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/http-request.md)
-* [HttpResponse](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.0.4/doc/http-response.md)
+* [Utility Classes](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/utility-classes.md)
+* [ApiException](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/api-exception.md)
+* [HttpRequest](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/http-request.md)
+* [HttpResponse](https://www.github.com/moizgillani/swagger-petstore-3-0-php-sdk/tree/1.1.0/doc/http-response.md)
 

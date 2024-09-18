@@ -25,6 +25,27 @@ class UserController extends BaseController
     /**
      * This can only be done by the logged in user.
      *
+     * @param string $name The name that needs to be deleted
+     *
+     * @return void Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function deleteUser(string $name): void
+    {
+        $_reqBuilder = $this->requestBuilder(RequestMethod::DELETE, '/user/{name}')
+            ->parameters(TemplateParam::init('name', $name));
+
+        $_resHandler = $this->responseHandler()
+            ->throwErrorOn('400', ErrorType::init('Invalid username supplied'))
+            ->throwErrorOn('404', ErrorType::init('User not found'));
+
+        $this->execute($_reqBuilder, $_resHandler);
+    }
+
+    /**
+     * This can only be done by the logged in user.
+     *
      * @param int|null $id
      * @param string|null $username
      * @param string|null $firstName
@@ -49,7 +70,6 @@ class UserController extends BaseController
         ?int $userStatus = null
     ): User {
         $_reqBuilder = $this->requestBuilder(RequestMethod::POST, '/user')
-            ->auth('global')
             ->parameters(
                 HeaderParam::init('Content-Type', 'application/x-www-form-urlencoded'),
                 FormParam::init('id', $id),
@@ -68,28 +88,6 @@ class UserController extends BaseController
     }
 
     /**
-     * Creates list of users with given input array
-     *
-     * @param User[]|null $body
-     *
-     * @return User Response from the API call
-     *
-     * @throws ApiException Thrown if API call fails
-     */
-    public function createUsersWithListInput(?array $body = null): User
-    {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::POST, '/user/createWithList')
-            ->auth('global')
-            ->parameters(HeaderParam::init('Content-Type', 'application/json'), BodyParam::init($body));
-
-        $_resHandler = $this->responseHandler()
-            ->throwErrorOn('0', ErrorType::init('successful operation'))
-            ->type(User::class);
-
-        return $this->execute($_reqBuilder, $_resHandler);
-    }
-
-    /**
      * Logs user into the system
      *
      * @param string|null $username The user name for login
@@ -102,48 +100,10 @@ class UserController extends BaseController
     public function loginUser(?string $username = null, ?string $password = null): string
     {
         $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/user/login')
-            ->auth('global')
             ->parameters(QueryParam::init('username', $username), QueryParam::init('password', $password));
 
         $_resHandler = $this->responseHandler()
             ->throwErrorOn('400', ErrorType::init('Invalid username/password supplied'));
-
-        return $this->execute($_reqBuilder, $_resHandler);
-    }
-
-    /**
-     * Logs out current logged in user session
-     *
-     * @return void Response from the API call
-     *
-     * @throws ApiException Thrown if API call fails
-     */
-    public function logoutUser(): void
-    {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/user/logout')->auth('global');
-
-        $this->execute($_reqBuilder);
-    }
-
-    /**
-     * Get user by user name
-     *
-     * @param string $name The name that needs to be fetched. Use user1 for testing.
-     *
-     * @return User Response from the API call
-     *
-     * @throws ApiException Thrown if API call fails
-     */
-    public function getUserByName(string $name): User
-    {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/user/{name}')
-            ->auth('global')
-            ->parameters(TemplateParam::init('name', $name));
-
-        $_resHandler = $this->responseHandler()
-            ->throwErrorOn('400', ErrorType::init('Invalid username supplied'))
-            ->throwErrorOn('404', ErrorType::init('User not found'))
-            ->type(User::class);
 
         return $this->execute($_reqBuilder, $_resHandler);
     }
@@ -177,7 +137,6 @@ class UserController extends BaseController
         ?int $userStatus = null
     ): void {
         $_reqBuilder = $this->requestBuilder(RequestMethod::PUT, '/user/{name}')
-            ->auth('global')
             ->parameters(
                 TemplateParam::init('name', $name),
                 HeaderParam::init('Content-Type', 'application/x-www-form-urlencoded'),
@@ -195,24 +154,59 @@ class UserController extends BaseController
     }
 
     /**
-     * This can only be done by the logged in user.
+     * Get user by user name
      *
-     * @param string $name The name that needs to be deleted
+     * @param string $name The name that needs to be fetched. Use user1 for testing.
+     *
+     * @return User Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function getUserByName(string $name): User
+    {
+        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/user/{name}')
+            ->parameters(TemplateParam::init('name', $name));
+
+        $_resHandler = $this->responseHandler()
+            ->throwErrorOn('400', ErrorType::init('Invalid username supplied'))
+            ->throwErrorOn('404', ErrorType::init('User not found'))
+            ->type(User::class);
+
+        return $this->execute($_reqBuilder, $_resHandler);
+    }
+
+    /**
+     * Creates list of users with given input array
+     *
+     * @param User[]|null $body
+     *
+     * @return User Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function createUsersWithListInput(?array $body = null): User
+    {
+        $_reqBuilder = $this->requestBuilder(RequestMethod::POST, '/user/createWithList')
+            ->parameters(HeaderParam::init('Content-Type', 'application/json'), BodyParam::init($body));
+
+        $_resHandler = $this->responseHandler()
+            ->throwErrorOn('0', ErrorType::init('successful operation'))
+            ->type(User::class);
+
+        return $this->execute($_reqBuilder, $_resHandler);
+    }
+
+    /**
+     * Logs out current logged in user session
      *
      * @return void Response from the API call
      *
      * @throws ApiException Thrown if API call fails
      */
-    public function deleteUser(string $name): void
+    public function logoutUser(): void
     {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::DELETE, '/user/{name}')
-            ->auth('global')
-            ->parameters(TemplateParam::init('name', $name));
+        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/user/logout');
 
-        $_resHandler = $this->responseHandler()
-            ->throwErrorOn('400', ErrorType::init('Invalid username supplied'))
-            ->throwErrorOn('404', ErrorType::init('User not found'));
-
-        $this->execute($_reqBuilder, $_resHandler);
+        $this->execute($_reqBuilder);
     }
 }

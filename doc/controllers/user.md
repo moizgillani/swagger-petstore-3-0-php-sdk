@@ -12,18 +12,56 @@ $userController = $client->getUserController();
 
 ## Methods
 
-* [Create User](../../doc/controllers/user.md#create-user)
-* [Create Users With List Input](../../doc/controllers/user.md#create-users-with-list-input)
-* [Login User](../../doc/controllers/user.md#login-user)
-* [Logout User](../../doc/controllers/user.md#logout-user)
-* [Get User by Name](../../doc/controllers/user.md#get-user-by-name)
-* [Update User](../../doc/controllers/user.md#update-user)
 * [Delete User](../../doc/controllers/user.md#delete-user)
+* [Create User](../../doc/controllers/user.md#create-user)
+* [Login User](../../doc/controllers/user.md#login-user)
+* [Update User](../../doc/controllers/user.md#update-user)
+* [Get User by Name](../../doc/controllers/user.md#get-user-by-name)
+* [Create Users With List Input](../../doc/controllers/user.md#create-users-with-list-input)
+* [Logout User](../../doc/controllers/user.md#logout-user)
+
+
+# Delete User
+
+This can only be done by the logged in user.
+
+:information_source: **Note** This endpoint does not require authentication.
+
+```php
+function deleteUser(string $name): void
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `name` | `string` | Template, Required | The name that needs to be deleted |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```php
+$name = 'name0';
+
+$userController->deleteUser($name);
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 400 | Invalid username supplied | `ApiException` |
+| 404 | User not found | `ApiException` |
 
 
 # Create User
 
 This can only be done by the logged in user.
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
 function createUser(
@@ -87,40 +125,11 @@ $result = $userController->createUser(
 ```
 
 
-# Create Users With List Input
-
-Creates list of users with given input array
-
-```php
-function createUsersWithListInput(?array $body = null): User
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `body` | [`?(User[])`](../../doc/models/user.md) | Body, Optional | - |
-
-## Response Type
-
-[`User`](../../doc/models/user.md)
-
-## Example Usage
-
-```php
-$result = $userController->createUsersWithListInput();
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| Default | successful operation | `ApiException` |
-
-
 # Login User
 
 Logs user into the system
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
 function loginUser(?string $username = null, ?string $password = null): string
@@ -150,62 +159,11 @@ $result = $userController->loginUser();
 | 400 | Invalid username/password supplied | `ApiException` |
 
 
-# Logout User
-
-Logs out current logged in user session
-
-```php
-function logoutUser(): void
-```
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```php
-$userController->logoutUser();
-```
-
-
-# Get User by Name
-
-Get user by user name
-
-```php
-function getUserByName(string $name): User
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `name` | `string` | Template, Required | The name that needs to be fetched. Use user1 for testing. |
-
-## Response Type
-
-[`User`](../../doc/models/user.md)
-
-## Example Usage
-
-```php
-$name = 'name0';
-
-$result = $userController->getUserByName($name);
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 400 | Invalid username supplied | `ApiException` |
-| 404 | User not found | `ApiException` |
-
-
 # Update User
 
 This can only be done by the logged in user.
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
 function updateUser(
@@ -274,30 +232,32 @@ $userController->updateUser(
 ```
 
 
-# Delete User
+# Get User by Name
 
-This can only be done by the logged in user.
+Get user by user name
+
+:information_source: **Note** This endpoint does not require authentication.
 
 ```php
-function deleteUser(string $name): void
+function getUserByName(string $name): User
 ```
 
 ## Parameters
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `name` | `string` | Template, Required | The name that needs to be deleted |
+| `name` | `string` | Template, Required | The name that needs to be fetched. Use user1 for testing. |
 
 ## Response Type
 
-`void`
+[`User`](../../doc/models/user.md)
 
 ## Example Usage
 
 ```php
 $name = 'name0';
 
-$userController->deleteUser($name);
+$result = $userController->getUserByName($name);
 ```
 
 ## Errors
@@ -306,4 +266,71 @@ $userController->deleteUser($name);
 |  --- | --- | --- |
 | 400 | Invalid username supplied | `ApiException` |
 | 404 | User not found | `ApiException` |
+
+
+# Create Users With List Input
+
+Creates list of users with given input array
+
+:information_source: **Note** This endpoint does not require authentication.
+
+```php
+function createUsersWithListInput(?array $body = null): User
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`?(User[])`](../../doc/models/user.md) | Body, Optional | - |
+
+## Response Type
+
+[`User`](../../doc/models/user.md)
+
+## Example Usage
+
+```php
+$body = [
+    UserBuilder::init()
+        ->id(10)
+        ->username('theUser')
+        ->firstName('John')
+        ->lastName('James')
+        ->email('john@email.com')
+        ->password('12345')
+        ->phone('12345')
+        ->userStatus(1)
+        ->build()
+];
+
+$result = $userController->createUsersWithListInput($body);
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| Default | successful operation | `ApiException` |
+
+
+# Logout User
+
+Logs out current logged in user session
+
+:information_source: **Note** This endpoint does not require authentication.
+
+```php
+function logoutUser(): void
+```
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```php
+$userController->logoutUser();
+```
 

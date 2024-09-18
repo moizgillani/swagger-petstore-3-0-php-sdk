@@ -23,17 +23,25 @@ use SwaggerPetstoreOpenAPI30Lib\Utils\DateTimeHelper;
 class StoreController extends BaseController
 {
     /**
-     * Returns a map of status codes to quantities
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
      *
-     * @return array<string,int> Response from the API call
+     * @param int $orderId ID of order that needs to be fetched
+     *
+     * @return Order Response from the API call
      *
      * @throws ApiException Thrown if API call fails
      */
-    public function getInventory(): array
+    public function getOrderById(int $orderId): Order
     {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/store/inventory')->auth('global');
+        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/store/order/{orderId}')
+            ->parameters(TemplateParam::init('orderId', $orderId));
 
-        return $this->execute($_reqBuilder);
+        $_resHandler = $this->responseHandler()
+            ->throwErrorOn('400', ErrorType::init('Invalid ID supplied'))
+            ->throwErrorOn('404', ErrorType::init('Order not found'))
+            ->type(Order::class);
+
+        return $this->execute($_reqBuilder, $_resHandler);
     }
 
     /**
@@ -59,7 +67,6 @@ class StoreController extends BaseController
         ?bool $complete = null
     ): Order {
         $_reqBuilder = $this->requestBuilder(RequestMethod::POST, '/store/order')
-            ->auth('global')
             ->parameters(
                 HeaderParam::init('Content-Type', 'application/x-www-form-urlencoded'),
                 FormParam::init('id', $id),
@@ -78,26 +85,17 @@ class StoreController extends BaseController
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
+     * Returns a map of status codes to quantities
      *
-     * @param int $orderId ID of order that needs to be fetched
-     *
-     * @return Order Response from the API call
+     * @return array<string,int> Response from the API call
      *
      * @throws ApiException Thrown if API call fails
      */
-    public function getOrderById(int $orderId): Order
+    public function getInventory(): array
     {
-        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/store/order/{orderId}')
-            ->auth('global')
-            ->parameters(TemplateParam::init('orderId', $orderId));
+        $_reqBuilder = $this->requestBuilder(RequestMethod::GET, '/store/inventory')->auth('api_key');
 
-        $_resHandler = $this->responseHandler()
-            ->throwErrorOn('400', ErrorType::init('Invalid ID supplied'))
-            ->throwErrorOn('404', ErrorType::init('Order not found'))
-            ->type(Order::class);
-
-        return $this->execute($_reqBuilder, $_resHandler);
+        return $this->execute($_reqBuilder);
     }
 
     /**
@@ -113,7 +111,6 @@ class StoreController extends BaseController
     public function deleteOrder(int $orderId): void
     {
         $_reqBuilder = $this->requestBuilder(RequestMethod::DELETE, '/store/order/{orderId}')
-            ->auth('global')
             ->parameters(TemplateParam::init('orderId', $orderId));
 
         $_resHandler = $this->responseHandler()
